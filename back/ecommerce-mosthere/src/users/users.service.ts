@@ -6,23 +6,31 @@ import { UsersRepository } from './users.repository';
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepository: UsersRepository) {}
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
-
   findAll() {
     return this.userRepository.getUsers()
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  
+  getUserById(id: number) {
+    return this.userRepository.findOne(id)
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  createUser(createUserDto: CreateUserDto) {
+    return this.userRepository.createUser(createUserDto)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  removeUser(id: number) {
+    return this.userRepository.removeUser(id);
+  }
+
+  updateUser(id: number, updateUserDto: UpdateUserDto) {
+    return this.userRepository.updateUser(id, updateUserDto);
+  }
+                  
+  findByEmail(email: string){
+    return this.userRepository.findOneByMail(email)
+  }
+
+  pag(page: number, limit:number){
+    return { page, limit }
   }
 }
