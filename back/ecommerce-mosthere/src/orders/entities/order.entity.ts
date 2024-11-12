@@ -11,7 +11,7 @@ export class Order {
     @PrimaryGeneratedColumn('uuid')
     id: string = uuid();
 
-    @ManyToOne((User) => (users) => users.orders_id)
+    @ManyToOne(() => User, (users) => users.orders)
     user: User
 
     @Column()

@@ -1,4 +1,5 @@
-import { IsArray, IsString} from "class-validator";
+import { IsArray, IsString } from "class-validator";
+
 export interface ProductId {
     id: string
 }

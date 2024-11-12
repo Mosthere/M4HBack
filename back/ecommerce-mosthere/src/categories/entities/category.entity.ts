@@ -1,5 +1,5 @@
 import { Product } from 'src/products/entities/product.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import {v4 as uuid} from 'uuid'
 
 @Entity({
@@ -13,6 +13,6 @@ export class Category {
     @Column({type: "varchar", length: 50, nullable: false})
     name: string
 
-    @ManyToOne(() => Product, (product) => product.id)
+    @OneToMany(() => Product, (product) => product.id)
     products: Product
 }

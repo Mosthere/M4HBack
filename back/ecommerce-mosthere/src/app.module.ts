@@ -10,7 +10,7 @@ import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './middleware/logger/logger.middleware';
-import { UsersController } from './users/users.controller';
+// import { UsersController } from './users/users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CategoriesModule } from './categories/categories.module';
@@ -21,21 +21,14 @@ import { PostgresDataSourceConfig } from './config/data-source';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      envFilePath: '.env.development.local',
       isGlobal: true,
       load: [PostgresDataSourceConfig]
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => 
+      useFactory: (configService: ConfigService) =>
         configService.get('postgres')
-      // type: 'postgres',
-      // database: configService.get('DB_NAME'),
-      // host: configService.get('DB_NAME'),
-      // port: configService.get('DB_NAME'),
-      // username: configService.get('DB_NAME'),
-      // password: configService.get('DB_NAME'),
-      // synchronize: true,
-      // logging: true,
     }),
     UsersModule,
     ProductsModule,
@@ -50,7 +43,7 @@ import { PostgresDataSourceConfig } from './config/data-source';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(LoggerMiddleware)
-      .forRoutes({ path: 'users', method: RequestMethod.GET });
+    .apply(LoggerMiddleware)
+    .forRoutes({ path: 'users', method: RequestMethod.GET });
   }
 }

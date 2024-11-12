@@ -16,30 +16,30 @@ export class UsersController {
   
   @Get(':id')
   getUserById(@Param('id') id: string) {
-    return this.usersService.getUserById(Number(id))
+    return this.usersService.getUserById(id)
   }
 
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.createUser(createUserDto);
-  }
+  // @Post()
+  // @HttpCode(HttpStatus.CREATED)
+  // create(@Body() createUserDto: CreateUserDto) {
+  //   return this.usersService.createUser(createUserDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.removeUser(+id);
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.usersService.removeUser(+id);
   
-  }
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.updateUser(+id, updateUserDto);
-  }
+  // }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  //   return this.usersService.updateUser(+id, updateUserDto);
+  // }
 
-  @Get('pag')
-  findWithPagination(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 5,
-  ){
-    return this.usersService.pag(page, limit)
-  }
+  // @Get('pag')
+  // findWithPagination(
+  //   @Query('page') page: number = 1,
+  //   @Query('limit') limit: number = 5,
+  // ){
+  //   return this.usersService.pag(page, limit)
+  // }
 }
