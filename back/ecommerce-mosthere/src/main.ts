@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { globalLogger } from './middleware/logger/logger.middleware';
 import { CategoriesService } from './categories/categories.service';
+import { ProductsService } from './products/products.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,9 +14,9 @@ async function bootstrap() {
     await categoriesService.seedCategories()
     console.log("Se insertaron las seeds de categorias")
   }
-  // const productSeeds = app.get(ProductsSeeds)
-  // await productSeeds.seed()
-  // console.log("Se insertaron las seeds de products")
+  const productSeeds = app.get(ProductsService)
+  await productSeeds.seedProducts()
+  console.log("Se insertaron las seeds de products")
   
   await app.listen(process.env.PORT ?? 3000);
 }

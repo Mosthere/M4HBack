@@ -18,7 +18,7 @@ export class CategoriesRepository{
         const existingCategories = await this.categoriesRepository.find({
             where: {name: In(categories)}
         })
-        for (const categoryName in categories){
+        for (const categoryName of categories){
             if(
                 !existingCategories.some((cat) => cat.name === categoryName)
             ){

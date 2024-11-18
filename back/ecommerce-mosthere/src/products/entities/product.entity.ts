@@ -23,7 +23,7 @@ export class Product {
     @Column({nullable: false})
     stock: number
 
-    @Column({type: "varchar"})
+    @Column({type: "varchar", nullable: true})
     imgUrl: string
 
     @ManyToOne(() => Category, (category) => category.products)
