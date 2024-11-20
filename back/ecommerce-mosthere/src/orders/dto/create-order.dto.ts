@@ -1,4 +1,4 @@
-import { IsArray, IsString } from "class-validator";
+import { IsArray, IsNotEmpty, IsString, IsUUID } from "class-validator";
 
 export interface ProductId {
     id: string
@@ -6,6 +6,8 @@ export interface ProductId {
 
 export class CreateOrderDto {
     @IsString()
+    @IsNotEmpty()
+    @IsUUID('4')
     userId: string
 
     @IsArray()

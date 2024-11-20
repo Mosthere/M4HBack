@@ -17,6 +17,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { OrdersModule } from './orders/orders.module';
 import { OrderDetailsModule } from './order-details/order-details.module';
 import { PostgresDataSourceConfig } from './config/data-source';
+import { CloudinaryService } from './service/cloudinary/cloudinary.service';
+import { FileUploadModule } from './file-upload/file-upload.module';
 
 @Module({
   imports: [
@@ -36,9 +38,10 @@ import { PostgresDataSourceConfig } from './config/data-source';
     CategoriesModule,
     OrdersModule,
     OrderDetailsModule,
+    FileUploadModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, CloudinaryService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

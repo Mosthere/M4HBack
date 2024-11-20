@@ -24,7 +24,7 @@ export class Product {
     stock: number
 
     @Column({type: "varchar", nullable: true})
-    imgUrl: string
+    imgUrl: string = 'default.png'
 
     @ManyToOne(() => Category, (category) => category.products)
     category: Category
