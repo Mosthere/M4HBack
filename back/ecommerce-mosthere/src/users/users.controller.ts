@@ -25,16 +25,6 @@ export class UsersController {
   //   return this.usersService.createUser(createUserDto);
   // }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.usersService.removeUser(+id);
-  
-  // }
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersService.updateUser(+id, updateUserDto);
-  // }
-
   // @Get('pag')
   // findWithPagination(
   //   @Query('page') page: number = 1,

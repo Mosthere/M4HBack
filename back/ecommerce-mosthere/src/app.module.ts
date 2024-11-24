@@ -19,6 +19,7 @@ import { OrderDetailsModule } from './order-details/order-details.module';
 import { PostgresDataSourceConfig } from './config/data-source';
 import { CloudinaryService } from './service/cloudinary/cloudinary.service';
 import { FileUploadModule } from './file-upload/file-upload.module';
+import { SharedModule } from './shared/shared/shared.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { FileUploadModule } from './file-upload/file-upload.module';
     OrdersModule,
     OrderDetailsModule,
     FileUploadModule,
+    SharedModule,
   ],
   controllers: [AppController],
   providers: [AppService, CloudinaryService],

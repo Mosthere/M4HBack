@@ -1,5 +1,5 @@
 import { IsOptional, IsString, Length, Matches } from "class-validator"
-export class CreateUserDto {
+export class SignUpAuthDto {
     
     @IsString()
     @Length(3, 80)

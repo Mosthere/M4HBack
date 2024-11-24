@@ -20,17 +20,9 @@ export class UsersService {
     // return this.userRepository.findOne(id)
   }
 
-  // createUser(createUserDto: CreateUserDto) {
-  //   return this.userRepository.createUser(createUserDto)
-  // }
-
-  // removeUser(id: number) {
-  //   return this.userRepository.removeUser(id);
-  // }
-
-  // updateUser(id: number, updateUserDto: UpdateUserDto) {
-  //   return this.userRepository.updateUser(id, updateUserDto);
-  // }
+  createUser(createUserDto: CreateUserDto) {
+    return this.userRepository.createUser(createUserDto)
+  }
                   
   findByEmail(email: string){
     return this.userRepository.findOneByMail(email)
