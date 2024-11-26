@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, HttpStatus, Put, Param } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInAuthDto } from './dto/signin-auth.dto';
 import { SignUpAuthDto } from './dto/signup-auth.dto';
@@ -15,10 +15,17 @@ export class AuthController {
   async signIn(@Body() credentials: SignInAuthDto) {
     return await this.authService.signIn(credentials);
   }
-  @Post('singup')
+  @Post('signup')
   @HttpCode(HttpStatus.CREATED)
   async signUp(@Body() signUpUser: SignUpAuthDto){
     const user = await this.authService.signUp(signUpUser)
     return new UserResponseDto(user)
+  }
+
+  @Put('admin/:id')
+  @HttpCode(HttpStatus.ACCEPTED)
+  async putAdminRole(@Param('id') id: string){
+    const user = await this.authService.putAdminRole(id)
+    return "Role changed to admin"
   }
 }

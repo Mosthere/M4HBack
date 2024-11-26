@@ -13,7 +13,7 @@ export class UsersRepository {
     private readonly usersRepository: Repository<User>     
   ){}
     // private users = [
-  //   {
+      //   {
   //     id: '1',
   //     email: 'usuario1@example.com',
   //     name: 'Usuario Uno',
@@ -22,13 +22,13 @@ export class UsersRepository {
   //     phone: '123-456-7890',
   //   },
   //   {
-  //     id: '2',
+    //     id: '2',
   //     email: 'usuario2@example.com',
   //     name: 'Usuario Dos',
   //     password: 'contraseña456',
   //     address: 'Avenida Siempre Viva 456',
   //     phone: '098-765-4321',
-
+  
   //   },
   //   {
   //     id: '3',
@@ -39,27 +39,26 @@ export class UsersRepository {
   //     phone: '555-555-5555',
   //   },
   //   {
-  //     id: '4',
-  //     email: 'usuario4@example.com',
+    //     id: '4',
+    //     email: 'usuario4@example.com',
   //     name: 'Usuario Cuatro',
   //     password: 'contraseña000',
   //     address: 'Plaza Mayor 101',
   //     phone: '777-888-9999',
   //   },
   // ];
-  getUsers() {
-    return this.usersRepository.find();
+  async getUsers() {
+    return await this.usersRepository.find();
   }
-
+  
   async findOne(id: string) {
     // const foundUser = await this.users.find((user) => user.id === id);
     const foundUser = await this.usersRepository.findOne({where: {id}})
     return foundUser;
   }
 
-  findOneByMail(email: string){
-    // const foundEmail = this.users.find((user) => user.email === email)
-    const foundEmail = this.usersRepository.findOne({where: {email}})
+  async findOneByMail(email: string){
+    const foundEmail = await this.usersRepository.findOne({where: {email}})
     return foundEmail
   }
 
@@ -74,7 +73,10 @@ export class UsersRepository {
   const newUser = {
     ...createUserDto
   }
-  this.usersRepository.save(newUser)
+  await this.usersRepository.save(newUser)
   return newUser
+  }
+  updateUserAdminRole(user: User) {
+    this.usersRepository.save(user)
   }
 }

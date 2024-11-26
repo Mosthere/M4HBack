@@ -3,12 +3,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './users.repository';
 import { UserResponseDto } from './dto/response-user.dto';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepository: UsersRepository) {}
-  findAll() {
-    return this.userRepository.getUsers()
+  async findAll() {
+    return await this.userRepository.getUsers()
   }
   
   async getUserById(id: string) {
@@ -20,12 +21,17 @@ export class UsersService {
     // return this.userRepository.findOne(id)
   }
 
-  createUser(createUserDto: CreateUserDto) {
-    return this.userRepository.createUser(createUserDto)
+  async getUserForAdmin(id: string){
+    const user = await this.userRepository.findOne(id)
+    return user
+  }
+
+  async createUser(createUserDto: CreateUserDto) {
+    return await this.userRepository.createUser(createUserDto)
   }
                   
-  findByEmail(email: string){
-    return this.userRepository.findOneByMail(email)
+  async findByEmail(email: string){
+    return await this.userRepository.findOneByMail(email)
   }
 
   pag(page: number, limit:number){
