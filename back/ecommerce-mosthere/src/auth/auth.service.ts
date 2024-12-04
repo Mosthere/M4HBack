@@ -36,7 +36,7 @@ export class AuthService {
     return { token }
   }
 
-  async signUp(signUpUser: SignUpAuthDto) {
+  async signUp(signUpUser: SignUpAuthDto): Promise<User> {
     if (signUpUser.password != signUpUser.passwordConfirm) {
       throw new HttpException('Passwords do not match', 400);
     }
@@ -58,5 +58,6 @@ export class AuthService {
     const user = await this.userService.getUserForAdmin(id)
     user.administrador = Role.Admin
     await this.usersRepository.updateUserAdminRole(user)
+    return user
   }
 }

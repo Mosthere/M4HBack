@@ -1,4 +1,4 @@
-import { IsOptional, IsString, Length, Matches } from "class-validator"
+import { IsNumber, IsOptional, IsString, Length, Matches } from "class-validator"
 export class SignUpAuthDto {
     
     @IsString()
@@ -23,7 +23,7 @@ export class SignUpAuthDto {
     @Length(3, 80)
     address: string
 
-    @IsString()
+    @IsNumber()
     phone: number
     
     @IsString()
@@ -35,4 +35,8 @@ export class SignUpAuthDto {
     @IsOptional()
     @Length(5, 20)
     city: string
+
+    constructor(partial: Partial<SignUpAuthDto>){
+        Object.assign(this, partial)
+    }
 }

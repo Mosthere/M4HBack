@@ -35,17 +35,3 @@ export class AuthGuard implements CanActivate {
       
   }
 }
-  //   const authHeader = request.header('Authorization')
-
-  //   if(!authHeader){
-  //     throw new HttpException('Not authorized', HttpStatus.UNAUTHORIZED)
-  //   }
-
-  //   const authFormat = authHeader.split(' ')
-  //   console.log(authHeader)
-  //   console.log(authFormat)
-
-  //   const credentialsBase64 = authFormat[1]
-  //   const decodedCredential = Buffer.from(credentialsBase64, 'base64').toString('utf-8')
-  //   console.log(decodedCredential)
-  //   return true;

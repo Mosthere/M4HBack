@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Query, HttpStatus, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Query, HttpStatus, UseGuards, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -21,10 +21,26 @@ export class UsersController {
   }
   
   @Get(':id')
+  @UseGuards(AuthGuard)
   async getUserById(@Param('id') id: string) {
     return await this.usersService.getUserById(id)
   }
 
+  @Put(':id')
+  @UseGuards(AuthGuard)
+  async updateUserById(
+    @Param('id') id: string,
+    @Body() updateUser: UpdateUserDto
+  ){
+    this.usersService.updateUser(id, updateUser)
+  }
+
+  @Delete(':id')
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  async removeUser(@Param('id') id: string){
+    await this.usersService.removeUser(id)
+  }
   // @Post()
   // @HttpCode(HttpStatus.CREATED)
   // create(@Body() createUserDto: CreateUserDto) {

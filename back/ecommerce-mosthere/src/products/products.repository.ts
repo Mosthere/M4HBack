@@ -13,7 +13,12 @@ export class ProductsRepository{
         @InjectRepository(Category)
         private readonly categoryRepository: Repository<Category>
     ){}
-
+    
+    async findAndUpdate(id, updateProduct) {
+        const getProduct = await this.findOneById(id)
+        Object.assign(getProduct, updateProduct)
+        await this.categoryRepository.save(getProduct)
+    }
 
     async findCategoryByName(category: string){
         const foundCategory = await this.categoryRepository.findOne({

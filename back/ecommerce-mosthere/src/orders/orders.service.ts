@@ -35,7 +35,7 @@ export class OrdersService {
 
     const orderDetailEntity = await this.orderDetails.create(orderDetail)
 
-    return new OrderResponseDto(orderDetailEntity) //El create no está hecho. Solo devueve un string min 43.51
+    return new OrderResponseDto(orderDetailEntity)
   }
 
   async calcularTotal(products: Array<ProductId>){

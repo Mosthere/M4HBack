@@ -7,13 +7,20 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UsersRepository {
+  
+  //     password: 'contraseña000',
+  //     address: 'Plaza Mayor 101',
+  //     phone: '777-888-9999',
+  //   },
+  // ];
+  
   constructor
   (
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>     
   ){}
-    // private users = [
-      //   {
+  //   private users = [
+  //       {
   //     id: '1',
   //     email: 'usuario1@example.com',
   //     name: 'Usuario Uno',
@@ -22,7 +29,7 @@ export class UsersRepository {
   //     phone: '123-456-7890',
   //   },
   //   {
-    //     id: '2',
+  //       id: '2',
   //     email: 'usuario2@example.com',
   //     name: 'Usuario Dos',
   //     password: 'contraseña456',
@@ -39,20 +46,19 @@ export class UsersRepository {
   //     phone: '555-555-5555',
   //   },
   //   {
-    //     id: '4',
-    //     email: 'usuario4@example.com',
+  //       id: '4',
+  //       email: 'usuario4@example.com',
   //     name: 'Usuario Cuatro',
   //     password: 'contraseña000',
   //     address: 'Plaza Mayor 101',
   //     phone: '777-888-9999',
   //   },
   // ];
-  async getUsers() {
+  async getUsers(): Promise<User[]> {
     return await this.usersRepository.find();
   }
   
   async findOne(id: string) {
-    // const foundUser = await this.users.find((user) => user.id === id);
     const foundUser = await this.usersRepository.findOne({where: {id}})
     return foundUser;
   }
@@ -62,21 +68,22 @@ export class UsersRepository {
     return foundEmail
   }
 
-  async createUser(createUserDto: CreateUserDto) {
-  //   const newUser = {
-  //     id: this.users.length + 1,
-  //     ...createUserDto,
-  //   };
-  //   this.users.push(newUser);
-  //   return newUser
-  // }
-  const newUser = {
-    ...createUserDto
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
+    const newUser = {
+      ...createUserDto
+    }
+    const dbUser = await this.usersRepository.save(newUser)
+    return dbUser
   }
-  await this.usersRepository.save(newUser)
-  return newUser
+  async getUserAndUpdate(id: string, updateUser: UpdateUserDto) {
+    const getUser = await this.findOne(id)
+    Object.assign(getUser, updateUser)
+    await this.usersRepository.save(getUser)
   }
-  updateUserAdminRole(user: User) {
-    this.usersRepository.save(user)
+  async removeUserById(id: string){
+    await this.usersRepository.delete(id)
+  }
+  async updateUserAdminRole(user: User) {
+    await this.usersRepository.save(user)
   }
 }

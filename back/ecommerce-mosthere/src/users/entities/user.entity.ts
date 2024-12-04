@@ -35,6 +35,6 @@ export class User {
     @OneToMany(() => Order, (order) => order.user)
     orders: Order[]
 
-    @Column({type: 'enum', enum: Role, default: Role.User})
+    @Column({default: Role.User})
     administrador: Role
 }

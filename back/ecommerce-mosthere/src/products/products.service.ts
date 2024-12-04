@@ -24,7 +24,7 @@ export class ProductsService {
     })
     return product.price
   }
-
+  
   async uploadFile(file: UploadFileDto, id: string){
     const url = await this.fileUploadService.uploadFile({
       fieldname: file.fieldname,
@@ -35,5 +35,10 @@ export class ProductsService {
     })
     await this.productRepository.update(id, {imgUrl: url})
     return {imgUrl: url}
+  }
+
+  async updateProducts(id, updateProduct) {
+    await this.productRepository.findAndUpdate(id, updateProduct);
+
   }
 }
