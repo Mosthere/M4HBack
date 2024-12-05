@@ -1,9 +1,25 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { OrderDetail } from "src/order-details/entities/order-detail.entity";
 
 export class OrderResponseDto {
+    @ApiProperty({
+        description: 'Id of order response',
+    })
     id: string;
+
+    @ApiProperty({
+        description: 'Price of order response',
+    })
     price: number;
+
+    @ApiProperty({
+        description: 'Products of order response',
+    })
     products: object[];
+
+    @ApiProperty({
+        description: 'Full order of order response',
+    })
     order: {
         id: string;
         date: Date;

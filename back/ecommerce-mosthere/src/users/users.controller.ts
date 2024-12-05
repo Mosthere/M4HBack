@@ -6,13 +6,16 @@ import { AuthGuard } from 'src/guards/auth/auth.guard';
 import { RolesGuard } from 'src/guards/roles/roles.guard';
 import { Roles } from 'src/decorators/role.decorators';
 import { Role } from './enum/role.enum';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
+@ApiTags('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
+  
   
   @HttpCode(200)
+  @ApiBearerAuth()
   @Get()
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
@@ -21,6 +24,7 @@ export class UsersController {
   }
   
   @Get(':id')
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   async getUserById(@Param('id') id: string) {
     return await this.usersService.getUserById(id)
