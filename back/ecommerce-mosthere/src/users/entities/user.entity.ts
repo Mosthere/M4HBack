@@ -19,7 +19,8 @@ export class User {
     @ApiProperty({
         type: String,
         description: 'Name of user entity',
-        required: true
+        required: true,
+        example: 'Martin'
     })
     @Column({type: "varchar", length: 50, nullable: false})
     name: string
@@ -27,7 +28,8 @@ export class User {
     @ApiProperty({
         type: String,
         description: 'Email of user entity',
-        required: true
+        required: true,
+        example: 'martinmail@gmail.com'
     })
     @Column({type: "varchar", length: 50, nullable: false})
     email: string
@@ -35,7 +37,8 @@ export class User {
     @ApiProperty({
         type: String,
         description: 'Password of user entity',
-        required: true
+        required: true,
+        example: "aSecurePassword1!"
     })
     @Column({type: "varchar", nullable: false})
     password: string
@@ -43,7 +46,8 @@ export class User {
     @ApiProperty({
         type: Number,
         description: 'Phone number of user entity',
-        required: true
+        required: true,
+        example: 505043
     })
     @Column("int")
     phone: number
@@ -51,6 +55,7 @@ export class User {
     @ApiProperty({
         type: String,
         description: 'Country of user entity',
+        example: 'Argentina'
     })
     @Column("varchar", { length: 50})
     country: string
@@ -58,6 +63,7 @@ export class User {
     @ApiProperty({
         type: String,
         description: 'Address of user entity',
+        example: 'My adress 123'
     })
     @Column("text")
     address: string
@@ -65,18 +71,24 @@ export class User {
     @ApiProperty({
         type: String,
         description: 'City of user entity',
+        example: 'Morteros'
     })
     @Column("varchar", { length: 50})
     city: string
 
     @ApiProperty({
-        type: Array,
+        type: [Order],
         description: 'Orders array of user entity',
-        required: true
+        required: true,
+        default: Role.User
     })
     @OneToMany(() => Order, (order) => order.user)
     orders: Order[]
 
+    @ApiProperty({
+        enum: Role,
+        description: 'User role in entity'
+    })
     @Column({default: Role.User})
     administrador: Role
 }

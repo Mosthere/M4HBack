@@ -11,7 +11,6 @@ export class Category {
     @ApiProperty({
         type: String,
         description: 'Id of category entity',
-        required: true
     })
     @PrimaryGeneratedColumn('uuid')
     id: string = uuid();
@@ -19,11 +18,16 @@ export class Category {
     @ApiProperty({
         type: String,
         description: 'String name of category entity',
-        required: true
+        required: true,
+        example: 'TV'
     })
     @Column({type: "varchar", length: 50, nullable: false})
     name: string
 
+    @ApiProperty({
+        type: [Product],
+        description: 'Products of category entity',
+    })
     @OneToMany(() => Product, (product) => product.id)
     products: Product
 }

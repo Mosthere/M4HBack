@@ -19,15 +19,24 @@ export class OrderDetail {
     @ApiProperty({
         type: Number,
         description: 'Price of order-detail entity',
-        required: true
+        required: true,
+        example: 10.50
     })
     @Column({type: "decimal", precision: 10, scale: 2, nullable: false})
     price: number
 
+    @ApiProperty({
+        type: [Order],
+        description: 'Orders array of order-detail entity',
+    })
     @OneToOne(() => Order, (order) => order.OrderDetails)
     @JoinColumn()
     order: Order
 
+    @ApiProperty({
+        type: [Product],
+        description: 'Product array of order-detail entity',
+    })
     @ManyToMany(() => Product, (product) => product.orderDetails)
     products: Product[]
 }

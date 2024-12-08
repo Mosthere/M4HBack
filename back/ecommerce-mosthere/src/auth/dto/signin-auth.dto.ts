@@ -5,7 +5,8 @@ export class SignInAuthDto {
     @ApiProperty({
         type: String,
         description: 'Email of user',
-        required: true
+        required: true,
+        example: 'martinmail@gmail.com'
     })
     @IsEmail()
     @IsNotEmpty()
@@ -14,7 +15,8 @@ export class SignInAuthDto {
     @ApiProperty({
         type: String,
         description: 'Password of user',
-        required: true
+        required: true,
+        example: 'aSecurePassword1!'
     })
     @IsString()
     @IsNotEmpty()

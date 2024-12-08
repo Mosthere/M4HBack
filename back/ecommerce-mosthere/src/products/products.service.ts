@@ -13,7 +13,7 @@ export class ProductsService {
     await this.productRepository.addProductsSeed()
     console.log("Done")
   }
-
+  
   async buyProducts(id: string){
     const product = await this.productRepository.findOneById(id)
     if (product.stock === 0){
@@ -36,9 +36,12 @@ export class ProductsService {
     await this.productRepository.update(id, {imgUrl: url})
     return {imgUrl: url}
   }
-
+  
   async updateProducts(id, updateProduct) {
     await this.productRepository.findAndUpdate(id, updateProduct);
-
+    
+  }
+  async getAllProducts() {
+    return await this.productRepository.findAll() ;
   }
 }

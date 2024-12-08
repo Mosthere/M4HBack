@@ -4,14 +4,15 @@ export class CreateOrderDetailDto {
     @ApiProperty({
         type: Number,
         description: 'Price of order',
-        required: true
+        required: true,
+        example: 100
     })
     price: number;
 
     @ApiProperty({
         type: Object,
         description: 'Order of products',
-        required: true
+        required: true,
     })
     order: object;
 

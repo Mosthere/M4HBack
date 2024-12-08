@@ -18,6 +18,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageUploadPipe } from 'src/pipes/image-upload/image-upload.pipe';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
+import { Product } from './entities/product.entity';
 
 @Controller('products')
 export class ProductsController {
@@ -45,5 +46,10 @@ export class ProductsController {
     @UploadedFile(new ImageUploadPipe()) file: Express.Multer.File,
   ) {
     return this.productsService.uploadFile(file, id);
+  }
+
+  @Get('get')
+  async getProducts(): Promise<Product[]>{
+    return await this.productsService.getAllProducts()
   }
 }

@@ -19,7 +19,7 @@ export class ProductsRepository{
         Object.assign(getProduct, updateProduct)
         await this.categoryRepository.save(getProduct)
     }
-
+    
     async findCategoryByName(category: string){
         const foundCategory = await this.categoryRepository.findOne({
             where: {name: category}
@@ -29,7 +29,7 @@ export class ProductsRepository{
         }
         return foundCategory
     }
-
+    
     async addProductsSeed(){
         const existingProducts = (await this.productRepository.find()).map(
             (product) => product.name
@@ -45,17 +45,20 @@ export class ProductsRepository{
                 product.category = await this.findCategoryByName(productData.category)
                 await this.productRepository.save(product)
             }
-    }
-
-    async findOneById(id){
-        const foundProduct = await this.productRepository.findOne(id)
-        return foundProduct
-    }
-
-    async update(id, stock){
-        const product = await this.findOneById(id)
-
-        product.stock = stock
-        return this.productRepository.save(product)
-    }
+        }
+        
+        async findOneById(id){
+            const foundProduct = await this.productRepository.findOne(id)
+            return foundProduct
+        }
+        
+        async update(id, stock){
+            const product = await this.findOneById(id)
+            
+            product.stock = stock
+            return this.productRepository.save(product)
+        }
+        async findAll() {
+          return await this.productRepository.find();
+        }
 }
