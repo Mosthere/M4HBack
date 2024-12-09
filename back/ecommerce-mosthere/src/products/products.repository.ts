@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { Product } from "./entities/product.entity";
 import { Category } from "src/categories/entities/category.entity";
 import { productsMock } from "src/seeds/products/products-mock";
+import { CreateProductDto } from "./dto/create-product.dto";
 
 @Injectable()
 export class ProductsRepository{
@@ -17,7 +18,8 @@ export class ProductsRepository{
     async findAndUpdate(id, updateProduct) {
         const getProduct = await this.findOneById(id)
         Object.assign(getProduct, updateProduct)
-        await this.categoryRepository.save(getProduct)
+        const updatedProduct = await this.categoryRepository.save(getProduct)
+        return updatedProduct
     }
     
     async findCategoryByName(category: string){
@@ -34,7 +36,7 @@ export class ProductsRepository{
         const existingProducts = (await this.productRepository.find()).map(
             (product) => product.name
         )
-
+        
         for (const productData of productsMock)
             if(!existingProducts.includes(productData.name)){
                 const product = new Product()
@@ -52,6 +54,14 @@ export class ProductsRepository{
             return foundProduct
         }
         
+        async createProduct(createProductDto: CreateProductDto) {
+            const newProduct = {
+                ...createProductDto
+              }
+            const newDbProduct = await this.productRepository.save(newProduct)
+            return newDbProduct
+        }
+        
         async update(id, stock){
             const product = await this.findOneById(id)
             
@@ -60,5 +70,15 @@ export class ProductsRepository{
         }
         async findAll() {
           return await this.productRepository.find();
+        }
+        async deleteProducts(id: string) {
+            await this.productRepository.delete(id)
+        }
+        async getOneProductById(id: string) {
+          const product = await this.productRepository.findOne({where: {id}})
+          if(!product){
+            throw new Error(`Product with id ${id} not found`)
+          }
+          return product
         }
 }

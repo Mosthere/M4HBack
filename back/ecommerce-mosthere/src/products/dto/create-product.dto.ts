@@ -48,7 +48,7 @@ export class CreateProductDto {
         type: String,
         description: 'Category id from product',
     })
-    @IsNumber()
+    @IsString()
     categoryId: string
 
 }

@@ -78,7 +78,7 @@ export class UsersRepository {
   async getUserAndUpdate(id: string, updateUser: UpdateUserDto) {
     const getUser = await this.findOne(id)
     Object.assign(getUser, updateUser)
-    await this.usersRepository.save(getUser)
+    return await this.usersRepository.save(getUser)
   }
   async removeUserById(id: string){
     await this.usersRepository.delete(id)

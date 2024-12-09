@@ -21,7 +21,7 @@ export class SignUpAuthDto {
     type: String,
     description: 'Email of user',
     required: true,
-    example: 'martinmail@gmail.com'
+    example: 'newuser@gmail.com'
   })
   @Matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
   @IsString()
@@ -31,7 +31,7 @@ export class SignUpAuthDto {
     type: String,
     description: 'Password of user',
     required: true,
-    example: "aSecurePassword1!"
+    example: "aPassword1!"
   })
   @Matches(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
@@ -44,7 +44,7 @@ export class SignUpAuthDto {
     type: String,
     description: 'Confirm password of user',
     required: true,
-    example: "aSecurePassword1!"
+    example: "aPassword1!"
   })
   @IsString()
   @Length(8, 15)

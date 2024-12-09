@@ -38,11 +38,14 @@ export class UsersService {
   
   async updateUser(id: string, updateUser: UpdateUserDto) {
     const getUser = await this.userRepository.getUserAndUpdate(id, updateUser)
+    return getUser
   }
   async removeUser(id: string) {
+    const removedUserId = await this.userRepository.findOne(id)
     await this.userRepository.removeUserById(id)
+    return removedUserId
   }
-  pag(page: number, limit:number){
+  async pag(page: number, limit:number){
     return { page, limit }
   }
 }

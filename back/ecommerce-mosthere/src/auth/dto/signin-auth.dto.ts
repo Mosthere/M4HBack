@@ -6,7 +6,7 @@ export class SignInAuthDto {
         type: String,
         description: 'Email of user',
         required: true,
-        example: 'martinmail@gmail.com'
+        example: 'newuser@gmail.com'
     })
     @IsEmail()
     @IsNotEmpty()
@@ -16,7 +16,7 @@ export class SignInAuthDto {
         type: String,
         description: 'Password of user',
         required: true,
-        example: 'aSecurePassword1!'
+        example: 'aPassword1!'
     })
     @IsString()
     @IsNotEmpty()

@@ -3,6 +3,7 @@ import { Category } from "./entities/category.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { In, Repository } from "typeorm";
 import { categories } from "src/seeds/categories/categories-mock";
+import { CreateCategoryDto } from "./dto/create-category.dto";
 
 
 @Injectable()
@@ -27,6 +28,13 @@ export class CategoriesRepository{
                 await this.categoriesRepository.save(category)
             }
         }
+    }
+    async createCategory(createCategoryDto: CreateCategoryDto) {
+      const newCategory = {
+        ...createCategoryDto
+      } 
+      const newDbCategory = await this.categoriesRepository.save(newCategory)
+      return newDbCategory
     }
 }
 
