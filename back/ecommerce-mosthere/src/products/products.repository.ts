@@ -14,9 +14,9 @@ export class ProductsRepository{
         @InjectRepository(Category)
         private readonly categoryRepository: Repository<Category>
     ){}
-    
+
     async findAndUpdate(id, updateProduct) {
-        const getProduct = await this.findOneById(id)
+        const getProduct = await this.findOneProduct(id)
         Object.assign(getProduct, updateProduct)
         const updatedProduct = await this.categoryRepository.save(getProduct)
         return updatedProduct
@@ -49,8 +49,8 @@ export class ProductsRepository{
             }
         }
         
-        async findOneById(id){
-            const foundProduct = await this.productRepository.findOne(id)
+        async findOneProduct(id: string){
+            const foundProduct = await this.productRepository.findOne({where: {id}})
             return foundProduct
         }
         
@@ -61,9 +61,11 @@ export class ProductsRepository{
             const newDbProduct = await this.productRepository.save(newProduct)
             return newDbProduct
         }
-        
-        async update(id, stock){
-            const product = await this.findOneById(id)
+        async updateImage(id, imgUrl){
+            return this.productRepository.update(id, {imgUrl})
+        }
+        async update(id: string, stock: number){
+            const product = await this.findOneProduct(id)
             
             product.stock = stock
             return this.productRepository.save(product)

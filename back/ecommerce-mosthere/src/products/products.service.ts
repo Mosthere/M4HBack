@@ -16,13 +16,13 @@ export class ProductsService {
   }
   
   async buyProducts(id: string){
-    const product = await this.productRepository.findOneById(id)
+    const product = await this.productRepository.findOneProduct(id)
+    product.stock = Number(product.stock)
     if (product.stock === 0){
       throw new Error("Sin stock")
     }
-    await this.productRepository.update(id, {
-      stock: product.stock -1,
-    })
+    const stock = product.stock -1
+    await this.productRepository.update(id, stock)
     return product.price
   }
 
@@ -39,10 +39,10 @@ export class ProductsService {
       mimetype: file.mimetype,
       size: file.size,
     })
-    await this.productRepository.update(id, {imgUrl: url})
+    await this.productRepository.updateImage(id, {imgUrl: url})
     return {imgUrl: url}
   }
-  
+
   async updateProducts(id, updateProduct) {
     const updatedProduct = await this.productRepository.findAndUpdate(id, updateProduct);
     return updatedProduct
@@ -51,7 +51,7 @@ export class ProductsService {
     return await this.productRepository.findAll() ;
   }
   async deleteProducts(id: string) {
-    const returnedId = this.productRepository.findOneById(id)
+    const returnedId = this.productRepository.findOneProduct(id)
     await this.productRepository.deleteProducts(id)
     return returnedId
   }

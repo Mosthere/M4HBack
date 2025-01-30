@@ -76,7 +76,7 @@ export class UsersRepository {
     return dbUser
   }
   async getUserAndUpdate(id: string, updateUser: UpdateUserDto) {
-    const getUser = await this.findOne(id)
+    const getUser = await this.usersRepository.findOne({where: {id}})
     Object.assign(getUser, updateUser)
     return await this.usersRepository.save(getUser)
   }

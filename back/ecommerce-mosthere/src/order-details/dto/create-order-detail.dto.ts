@@ -5,7 +5,6 @@ export class CreateOrderDetailDto {
         type: Number,
         description: 'Price of order',
         required: true,
-        example: 100
     })
     price: number;
 

@@ -51,6 +51,7 @@ export class UsersController {
 
   @HttpCode(HttpStatus.OK)
   @Put(':id')
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @ApiOperation({
     summary: 'Updates user by given id',

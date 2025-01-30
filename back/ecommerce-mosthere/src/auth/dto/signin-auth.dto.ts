@@ -6,7 +6,7 @@ export class SignInAuthDto {
         type: String,
         description: 'Email of user',
         required: true,
-        example: 'newuser@gmail.com'
+        example: 'adminmail@gmail.com'
     })
     @IsEmail()
     @IsNotEmpty()

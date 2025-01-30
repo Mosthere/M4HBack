@@ -12,7 +12,7 @@ export class OrderDetailsService {
     private readonly orderDetailRepository: Repository<OrderDetail>
   ){}
   async create(createOrderDetailDto: CreateOrderDetailDto) {
-    const orderDetail = this.orderDetailRepository.create(createOrderDetailDto)
+    const orderDetail = await this.orderDetailRepository.create(createOrderDetailDto)
     return await this.orderDetailRepository.save(orderDetail)
   }
   async findOneByOrderId(orderId: string, relations: string[] = []){
@@ -21,20 +21,4 @@ export class OrderDetailsService {
       relations: relations,
     })
   }
-
-  // findAll() {
-  //   return `This action returns all orderDetails`;
-  // }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} orderDetail`;
-  // }
-
-  // update(id: number, updateOrderDetailDto: UpdateOrderDetailDto) {
-  //   return `This action updates a #${id} orderDetail`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} orderDetail`;
-  // }
 }
