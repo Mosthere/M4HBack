@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "buffer-to-stream": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/buffer-to-stream": "^1.0.3"
+  }
+}

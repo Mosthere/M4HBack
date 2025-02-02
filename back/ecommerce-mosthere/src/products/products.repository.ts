@@ -61,9 +61,6 @@ export class ProductsRepository{
             const newDbProduct = await this.productRepository.save(newProduct)
             return newDbProduct
         }
-        async updateImage(id, imgUrl){
-            return this.productRepository.update(id, {imgUrl})
-        }
         async update(id: string, stock: number){
             const product = await this.findOneProduct(id)
             

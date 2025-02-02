@@ -1,12 +1,33 @@
-import { Injectable } from '@nestjs/common';
-import { CloudinaryService } from 'src/service/cloudinary/cloudinary.service';
-import { UploadFileDto } from './dto/upload-file.dto';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { FileUploadRepository } from "./file-upload.repository";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Product } from "src/products/entities/product.entity";
+import { Repository } from "typeorm";
 
 @Injectable()
-export class FileUploadService {
-    constructor(private readonly clodinaryService: CloudinaryService){}
+export class FileUploadService{
+    constructor(
+        private readonly fileUploadRepository: FileUploadRepository,
+        @InjectRepository(Product)
+        private readonly productsRepository: Repository<Product>
+    ){}
 
-    async uploadFile(file: UploadFileDto){
-        return this.clodinaryService.uploadFile(file.buffer, file.originalname)
+    async uploadProductImage(file: Express.Multer.File, productId: string){
+        const product = await this.productsRepository.findOneBy({id: productId})
+        if (!Product){
+            throw new NotFoundException('Product not found')
+        }
+
+        const uploadImage = await this.fileUploadRepository.uploadImage(file)
+
+        await this.productsRepository.update(product.id, {
+            imgUrl: uploadImage.secure_url
+        })
+
+        const updatedProduct = await this.productsRepository.findOneBy({
+            id: productId
+        })
+
+        return updatedProduct
     }
 }

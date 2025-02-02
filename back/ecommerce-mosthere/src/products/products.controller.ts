@@ -3,19 +3,14 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   HttpCode,
   HttpStatus,
-  UseInterceptors,
-  UploadedFile,
   Put,
   UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { ImageUploadPipe } from 'src/pipes/image-upload/image-upload.pipe';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
 import { Product } from './entities/product.entity';
@@ -75,20 +70,6 @@ export class ProductsController {
   ){
     const product = await this.productsService.createProduct(createProductDto)
     return product.id
-  }
-
-  @Post('files/uploadImage/:id')
-  @HttpCode(HttpStatus.OK)
-  @UseGuards(AuthGuard)
-  @UseInterceptors(FileInterceptor('file'))
-  @ApiOperation({
-    summary: 'Uploads file image',
-  })
-  async uploadFile(
-    @Param('id') id: string,
-    @UploadedFile(new ImageUploadPipe()) file: Express.Multer.File,
-  ) {
-    return this.productsService.uploadFile(file, id);
   }
 
   @Get('get')

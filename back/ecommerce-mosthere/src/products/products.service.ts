@@ -1,14 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ProductsRepository } from './products.repository';
-import { FileUploadService } from 'src/file-upload/file-upload.service';
-import { UploadFileDto } from 'src/file-upload/dto/upload-file.dto';
 import { CreateProductDto } from './dto/create-product.dto';
 
 @Injectable()
 export class ProductsService {
   constructor(
     private readonly productRepository: ProductsRepository,
-    private readonly fileUploadService: FileUploadService
   ){}
   async seedProducts(){
     await this.productRepository.addProductsSeed()
@@ -30,19 +27,6 @@ export class ProductsService {
     const newProduct = await this.productRepository.createProduct(createProductDto)
     return newProduct
   }
-  
-  async uploadFile(file: UploadFileDto, id: string){
-    const url = await this.fileUploadService.uploadFile({
-      fieldname: file.fieldname,
-      buffer: file.buffer,
-      originalname: file.originalname,
-      mimetype: file.mimetype,
-      size: file.size,
-    })
-    await this.productRepository.updateImage(id, {imgUrl: url})
-    return {imgUrl: url}
-  }
-
   async updateProducts(id, updateProduct) {
     const updatedProduct = await this.productRepository.findAndUpdate(id, updateProduct);
     return updatedProduct
