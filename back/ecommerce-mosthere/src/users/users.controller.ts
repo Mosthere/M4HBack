@@ -11,6 +11,7 @@ import {
   HttpStatus,
   UseGuards,
   Put,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -45,7 +46,7 @@ export class UsersController {
   @ApiOperation({
     summary: 'Get user by given id',
   })
-  async getUserById(@Param('id') id: string) {
+  async getUserById(@Param('id', ParseUUIDPipe) id: string) {
     return await this.usersService.getUserById(id);
   }
 
@@ -73,7 +74,7 @@ export class UsersController {
     },
   })
   async updateUserById(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUser: UpdateUserDto,
   ) {
     const updatedUser = await this.usersService.updateUser(id, updateUser);
@@ -88,21 +89,8 @@ export class UsersController {
   @ApiOperation({
     summary: 'Deletes user by given id',
   })
-  async removeUser(@Param('id') id: string) {
+  async removeUser(@Param('id', ParseUUIDPipe) id: string) {
     const removedUser = await this.usersService.removeUser(id);
     return removedUser.id
   }
-  // @Post()
-  // @HttpCode(HttpStatus.CREATED)
-  // create(@Body() createUserDto: CreateUserDto) {
-  //   return this.usersService.createUser(createUserDto);
-  // }
-
-  // @Get('pag')
-  // findWithPagination(
-  //   @Query('page') page: number = 1,
-  //   @Query('limit') limit: number = 5,
-  // ){
-  //   return this.usersService.pag(page, limit)
-  // }
 }

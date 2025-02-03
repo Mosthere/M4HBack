@@ -1,9 +1,13 @@
-import { Controller, Post, Body, HttpCode, HttpStatus, Put, Param, NotFoundException } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, HttpStatus, Put, Param, NotFoundException, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInAuthDto } from './dto/signin-auth.dto';
 import { SignUpAuthDto } from './dto/signup-auth.dto';
 import { UserResponseDto } from 'src/users/dto/response-user.dto';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/role.decorators';
+import { Role } from 'src/users/enum/role.enum';
+import { AuthGuard } from 'src/guards/auth/auth.guard';
+import { RolesGuard } from 'src/guards/roles/roles.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -34,6 +38,9 @@ export class AuthController {
 
   @Put('admin/:id')
   @HttpCode(HttpStatus.ACCEPTED)
+  @Roles(Role.Admin)
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({
     summary: 'Puts admin role if not given',
   })

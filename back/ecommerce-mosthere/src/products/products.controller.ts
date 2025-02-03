@@ -9,12 +9,14 @@ import {
   HttpStatus,
   Put,
   UseGuards,
+  ParseUUIDPipe,
+  Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
 import { Product } from './entities/product.entity';
-import { ApiBody, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation } from '@nestjs/swagger';
 import { CreateProductDto } from './dto/create-product.dto';
 import { RolesGuard } from 'src/guards/roles/roles.guard';
 import { Roles } from 'src/decorators/role.decorators';
@@ -25,6 +27,12 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post('seeder')
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Seeds products if not given by app'
+  })
   async productsSeeder() {
     return await this.productsService.seedProducts();
   }
@@ -33,6 +41,7 @@ export class ProductsController {
   @HttpCode(HttpStatus.OK)
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Updates product by given id',
   })
@@ -41,26 +50,28 @@ export class ProductsController {
     examples: {
       Product: {
         value: {
-          name: 'Updated Logitech g310 mouse',
-          description: 'Updated mouse logitech type g310',
-          price: 20,
-          stock: 40,
-          imgUrl: 'https://example.com/updated_image.png',
-          categoryId: 2,
+          name: '',
+          description: '',
+          price: '',
+          stock: '',
+          imgUrl: '',
+          categoryId: ''
         },
       },
     },
   })
   async putProducts(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateProduct: UpdateProductDto,
   ) {
-    const product = await this.productsService.updateProducts(id, updateProduct);
-    return product.id
+    const updatedProduct = await this.productsService.updateProducts(id, updateProduct);
+    return `El producto con este ID ${updatedProduct.id} fue actualizado`
   }
 
   @Post('create')
-  @UseGuards(AuthGuard)
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({
     summary: 'Creates product',
@@ -77,18 +88,25 @@ export class ProductsController {
   @ApiOperation({
     summary: 'Gets products',
   })
-  async getProducts(): Promise<Product[]> {
-    return await this.productsService.getAllProducts();
+  async getProducts(
+    @Query('page')
+    page: string,
+    @Query('limit')
+    limit: string
+  ): Promise<Product[]> {
+    return await this.productsService.getAllProducts(page, limit);
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard)
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Deletes product by given id',
   })
   async deleteProduct(
-    @Param('id') id:string
+    @Param('id', ParseUUIDPipe) id:string
   ){
     const deletedProduct = await this.productsService.deleteProducts(id)
     return `Deleted product with id ${deletedProduct}`
@@ -100,7 +118,7 @@ export class ProductsController {
     summary: 'Gets product by given id',
   })
   async getProductById(
-    @Param('id') id: string
+    @Param('id', ParseUUIDPipe) id: string
   ){
     const product = await this.productsService.getOneProduct(id)
     return product

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ParseUUIDPipe } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
@@ -34,6 +34,9 @@ export class OrdersController {
   @Get()
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get all orders',
+  })
   async getAll(){
     return await this.ordersService.findAll()
   }
@@ -44,14 +47,17 @@ export class OrdersController {
   })
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return await this.ordersService.getOrder(id);
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
-  async removeOne(@Param('id') id: string) {
+  @ApiOperation({
+    summary: 'Delete orders',
+  })
+  async removeOne(@Param('id', ParseUUIDPipe) id: string) {
     return await this.ordersService.removeOrder(id)
   }
 }

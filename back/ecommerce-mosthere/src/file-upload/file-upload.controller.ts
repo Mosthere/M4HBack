@@ -1,7 +1,11 @@
-import { Controller, FileTypeValidator, MaxFileSizeValidator, Param, ParseFilePipe, ParseUUIDPipe, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Controller, FileTypeValidator, MaxFileSizeValidator, Param, ParseFilePipe, ParseUUIDPipe, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { FileUploadService } from "./file-upload.service";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiBody, ApiConsumes } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation } from "@nestjs/swagger";
+import { Roles } from "src/decorators/role.decorators";
+import { Role } from "src/users/enum/role.enum";
+import { AuthGuard } from "src/guards/auth/auth.guard";
+import { RolesGuard } from "src/guards/roles/roles.guard";
 
 @Controller('files')
 export class FileUploadController {
@@ -20,6 +24,12 @@ export class FileUploadController {
   })
   @Post('uploadImage/:productId')
   @UseInterceptors(FileInterceptor('file'))
+  @Roles(Role.Admin)
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({
+      summary: 'Upload a file image for products',
+    })
   async uploadProductImage(
     @Param('productId', ParseUUIDPipe) productId: string,
     @UploadedFile(

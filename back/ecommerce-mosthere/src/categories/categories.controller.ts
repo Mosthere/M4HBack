@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { RolesGuard } from 'src/guards/roles/roles.guard';
+import { AuthGuard } from 'src/guards/auth/auth.guard';
+import { Role } from 'src/users/enum/role.enum';
+import { Roles } from 'src/decorators/role.decorators';
 
 @Controller('categories')
 export class CategoriesController {
@@ -24,6 +27,9 @@ export class CategoriesController {
 
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
+  @Roles(Role.Admin)
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard, RolesGuard)
   @ApiOperation({
     summary: 'Creates category',
   })

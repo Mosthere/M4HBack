@@ -6,7 +6,6 @@ import { Order } from './entities/order.entity';
 import { OrderRepository } from './order.repository';
 import { UsersModule } from 'src/users/users.module';
 import { ProductsModule } from 'src/products/products.module';
-import { OrderDetailsModule } from 'src/order-details/order-details.module';
 import { User } from 'src/users/entities/user.entity';
 import { Product } from 'src/products/entities/product.entity';
 import { OrderDetail } from 'src/order-details/entities/order-detail.entity';
@@ -26,7 +25,3 @@ import { Category } from 'src/categories/entities/category.entity';
   providers: [OrdersService, OrderRepository, ProductsRepository, CategoriesRepository],
 })
 export class OrdersModule {}
-
-// UsersModule,
-//     ProductsModule,
-//     OrderDetailsModule,

@@ -12,7 +12,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CategoriesModule } from './categories/categories.module';
 import { OrdersModule } from './orders/orders.module';
-import { OrderDetailsModule } from './order-details/order-details.module';
 import {
   PostgresDataSourceConfig,
 } from './config/data-source';
@@ -39,7 +38,6 @@ import { SharedModule } from './shared/shared/shared.module';
     AuthModule,
     CategoriesModule,
     OrdersModule,
-    OrderDetailsModule,
     FileUploadModule,
     SharedModule,
   ],
