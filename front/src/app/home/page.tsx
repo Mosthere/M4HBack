@@ -11,6 +11,30 @@ import Link from "next/link"
 export default async function HomePage() {
 
     const products: Product[] = await getProducts()
+
+//     const [cart, setCart] = useState<CartItem[]>([]);
+
+//   async function addToCart(product: CartItem) {
+//     try {
+//       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/cart/add`, {
+//         productId: product.id,
+//         quantity: 1,
+//       });
+
+//       setCart((prev) => {
+//         const exist = prev.find((item) => item.id === product.id);
+//         if (exist) {
+//           return prev.map((item) =>
+//             item.id ? { ...item, quantity: item.quantity + 1 } : item
+//           );
+//         } else {
+//           return [...prev, { ...product, quantity: 1 }];
+//         }
+//       });
+//     } catch (err) {
+//       console.error("Error al agregar producto al carrito", err);
+//     }
+//   }
     
     return (
         <main>
